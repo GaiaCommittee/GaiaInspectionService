@@ -106,13 +106,3 @@ if(CMAKE_SYSTEM_NAME MATCHES "Linux")
     target_link_libraries(${TARGET_NAME} PUBLIC ${CMAKE_THREAD_LIBS_INIT})
     target_link_libraries(${TARGET_NAME} PUBLIC dl)
 endif()
-
-#===============================
-# Install Scripts
-#===============================
-
-# Install executable files and libraries to 'default_path/'.
-install(TARGETS ${TARGET_NAME}
-        RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-        LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/lib
-        ARCHIVE DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
