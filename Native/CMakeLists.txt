@@ -13,11 +13,16 @@ if (NOT PROJECT_DECLARED)
     set(PROJECT_DECLARED)
 endif()
 
+if (NOT PROJECT_SUIT)
+    set(PROJECT_SUIT)
+endif()
+
 #==============================
 # Project Modules
 #==============================
 
 add_subdirectory("GaiaInspectionClient")
+add_subdirectory("GaiaInspectionReader")
 
 if (WITH_TEST)
     add_subdirectory("InspectionTest")
