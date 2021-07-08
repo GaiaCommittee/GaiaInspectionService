@@ -9,7 +9,7 @@ int main()
     int increased_value = 0;
     int decreased_value = 0;
 
-    InspectionService::InspectionWriter client("inspect_test");
+    InspectionService::InspectionClient client("inspect_test");
 
     client.AddProbe(TEXT(increased_value),
                     [&increased_value]{return std::to_string(increased_value);});
