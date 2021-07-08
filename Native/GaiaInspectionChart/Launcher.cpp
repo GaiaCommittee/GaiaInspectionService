@@ -1,5 +1,4 @@
 #include <iostream>
-#include <thread>
 #include <memory>
 #include <boost/program_options.hpp>
 #include <GaiaInspectionReader/GaiaInspectionReader.hpp>
