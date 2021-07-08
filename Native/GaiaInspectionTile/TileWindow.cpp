@@ -26,6 +26,8 @@ namespace Gaia::InspectionTile
             QApplication::exit(1);
         }
 
+        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+
         ui->labelName->setText(QString::fromStdString(VariableName));
 
         UpdateTimer = new QTimer(this);
