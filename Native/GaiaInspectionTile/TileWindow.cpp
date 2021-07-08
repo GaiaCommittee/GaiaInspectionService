@@ -8,6 +8,7 @@
 
 #include <utility>
 #include <QMessageBox>
+// Generated from ChartWindow.ui with QtUIC
 #include "UI_TileWindow.hpp"
 
 namespace Gaia::InspectionTile

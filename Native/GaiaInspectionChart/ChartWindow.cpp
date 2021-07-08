@@ -5,6 +5,7 @@
 // You may need to build the project (run Qt uic code generator) to get "ui_ChartWindow.h" resolved
 
 #include "ChartWindow.hpp"
+// Generated from ChartWindow.ui with QtUIC
 #include "UI_ChartWindow.hpp"
 
 #include <QMessageBox>
