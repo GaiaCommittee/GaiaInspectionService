@@ -55,6 +55,7 @@ namespace Gaia::InspectionChart
         QChart* ChartModel {nullptr};
         /// Chart view for data visualization.
         QChartView* ChartView {nullptr};
+        /// Data to visualize in the chart.
         QLineSeries* ChartData {nullptr};
 
         QValueAxis* AxisX {nullptr};
