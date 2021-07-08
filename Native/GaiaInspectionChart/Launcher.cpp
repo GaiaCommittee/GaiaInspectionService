@@ -16,11 +16,11 @@ int main(int arguments_count, char** arguments)
 
     options.add_options()
             ("help,?", "show help message.")
-            ("ip,i", value<std::string>()->default_value("127.0.0.1"),
+            ("host,h", value<std::string>()->default_value("127.0.0.1"),
              "IP address of the Redis server.")
             ("port,p", value<unsigned int>()->default_value(6379),
              "Port of the Redis server.")
-            ("unit,u", value<std::string>()->default_value(""),
+            ("unit,u", value<std::string>()->default_value(std::string()),
              "name of the unit to watch")
             ("frequency,f", value<unsigned int>(), "query frequency, aka. query times per second.")
             ("list,l", "list all inspection variables.");
@@ -36,7 +36,7 @@ int main(int arguments_count, char** arguments)
     }
 
     auto reader = std::make_unique<InspectionReader>("*", variables["port"].as<unsigned int>(),
-            variables["ip"].as<std::string>());
+            variables["host"].as<std::string>());
 
     if (variables.count("list"))
     {
@@ -49,18 +49,7 @@ int main(int arguments_count, char** arguments)
         return 0;
     }
 
-    std::string unit_name;
-    if (!variables.count("unit"))
-    {
-        std::cout << "Input unit name: ";
-        std::cin >> unit_name;
-    }
-    else
-    {
-        unit_name = variables["unit"].as<std::string>();
-    }
-
-    reader->BindUnit(unit_name);
+    reader->BindUnit(variables["unit"].as<std::string>());
 
     QApplication application(arguments_count, arguments);
 
