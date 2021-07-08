@@ -14,7 +14,7 @@ if (NOT PROJECT_DECLARED)
 endif()
 
 if (NOT PROJECT_SUIT)
-    set(PROJECT_SUIT)
+    set(PROJECT_SUIT TRUE)
 endif()
 
 #==============================
@@ -23,6 +23,7 @@ endif()
 
 add_subdirectory("GaiaInspectionClient")
 add_subdirectory("GaiaInspectionReader")
+add_subdirectory("GaiaInspectionWatcher")
 
 if (WITH_TEST)
     add_subdirectory("InspectionTest")
