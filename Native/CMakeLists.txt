@@ -24,6 +24,7 @@ endif()
 add_subdirectory("GaiaInspectionClient")
 add_subdirectory("GaiaInspectionReader")
 add_subdirectory("GaiaInspectionWatcher")
+add_subdirectory("GaiaInspectionChart")
 
 if (WITH_TEST)
     add_subdirectory("InspectionTest")

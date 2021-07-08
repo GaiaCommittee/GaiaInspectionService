@@ -47,6 +47,12 @@ namespace Gaia::InspectionService
          */
         void BindUnit(const std::string& unit_name);
 
+        /// Get the name of the bound unit.
+        [[nodiscard]] inline std::string GetUnitName() const noexcept
+        {
+            return UnitName;
+        }
+
         /**
          * @brief Query all available variables.
          * @pre This reader is bound to a unit.

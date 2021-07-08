@@ -15,7 +15,7 @@ int main()
                     [&increased_value]{return std::to_string(increased_value);});
     client.AddProbe(TEXT(decreased_value),
                     [&decreased_value]{return std::to_string(decreased_value);});
-    int times = 30;
+    int times = 30000;
     while (times--)
     {
         ++increased_value;
