@@ -17,7 +17,7 @@ endif()
 # Unit Settings
 #==============================
 
-set(TARGET_NAME "GaiaInspectionChart")
+set(TARGET_NAME "GaiaInspectionTile")
 
 #==============================
 # Command Lines

@@ -46,19 +46,19 @@ namespace Gaia::InspectionChart
         ChartView->setChart(ChartModel);
         ui->viewLayout->addWidget(ChartView);
 
-        AxisX = new QValueAxis();
+        AxisX = new QValueAxis(this);
         AxisX->setRange(0, 20);
         AxisX->setTitleText("Frame");
         AxisX->setTickInterval(1.0);
         ChartModel->addAxis(AxisX, Qt::AlignmentFlag::AlignBottom);
 
-        AxisY = new QValueAxis();
+        AxisY = new QValueAxis(this);
         AxisY->setRange(-1000, 1000);
         AxisY->setTitleText("Value");
         AxisY->setTickInterval(1.0);
         ChartModel->addAxis(AxisY, Qt::AlignmentFlag::AlignLeft);
 
-        ChartData = new QtCharts::QLineSeries();
+        ChartData = new QtCharts::QLineSeries(this);
         ChartData->setName("Value");
         ChartModel->addSeries(ChartData);
         ChartData->attachAxis(AxisX);
@@ -81,6 +81,7 @@ namespace Gaia::InspectionChart
     /// Release resources.
     ChartWindow::~ChartWindow()
     {
+        delete ChartModel;
         delete ui;
     }
 

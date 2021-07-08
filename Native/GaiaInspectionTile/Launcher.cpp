@@ -3,9 +3,13 @@
 #include <boost/program_options.hpp>
 #include <GaiaInspectionReader/GaiaInspectionReader.hpp>
 
+#include <QApplication>
+#include "TileWindow.hpp"
+
 int main(int arguments_count, char** arguments)
 {
     using namespace Gaia::InspectionService;
+    using namespace Gaia::InspectionTile;
     using namespace boost::program_options;
 
     options_description options("Options");
@@ -32,13 +36,13 @@ int main(int arguments_count, char** arguments)
         return 0;
     }
 
-    InspectionReader reader("*", variables["port"].as<unsigned int>(),
-            variables["host"].as<std::string>());
+    auto reader = std::make_unique<InspectionReader>("*", variables["port"].as<unsigned int>(),
+                            variables["host"].as<std::string>());
 
     if (variables.count("list"))
     {
         std::cout << "All inspected variables:" << std::endl;
-        auto inspected_variables = reader.QueryVariables();
+        auto inspected_variables = reader->QueryVariables();
         for (const auto& inspected_variable : inspected_variables)
         {
             std::cout << "\t" << inspected_variable << std::endl;
@@ -73,24 +77,12 @@ int main(int arguments_count, char** arguments)
         frequency = variables["frequency"].as<unsigned int>();
     }
 
-    reader.BindUnit(unit_name);
+    reader->BindUnit(unit_name);
 
-    unsigned long long index = 0;
+    QApplication application(arguments_count, arguments);
 
-    while (true)
-    {
-        auto result = reader.QueryText(variable_name);
-        std::cout << "#" << index << "\t";
-        ++index;
-        if (result)
-        {
-            std::cout << *result;
-        }
-        else
-        {
-            std::cout << "(empty)";
-        }
-        std::cout << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000 / frequency));
-    }
+    TileWindow window(std::move(reader), variable_name, frequency);
+    window.show();
+
+    return QApplication::exec();
 }
