@@ -101,37 +101,47 @@ namespace Gaia::InspectionChart
         ui->labelValue->setText(QString::fromStdString(value_text.has_value() ? *value_text : "(Empty)"));
         if (!value_text.has_value()) return;
 
-        auto current_value = std::stod(*value_text);
-        ChartData->append(static_cast<qreal>(NextRecordIndex), current_value);
-
-        ++NextRecordIndex;
-
-        unsigned int max_records_columns = ui->centralwidget->size().width() / 10;
-        unsigned int current_records = ChartData->count();
-        if (current_records > max_records_columns)
+        double current_value;
+        try
         {
-            ChartData->removePoints(0,static_cast<int>(current_records - max_records_columns));
+            current_value = std::stod(*value_text);
+            ChartData->append(static_cast<qreal>(NextRecordIndex), current_value);
+
+            ++NextRecordIndex;
+
+            unsigned int max_records_columns = ui->centralwidget->size().width() / 10;
+            unsigned int current_records = ChartData->count();
+            if (current_records > max_records_columns)
+            {
+                ChartData->removePoints(0,static_cast<int>(current_records - max_records_columns));
+            }
+
+            const auto& data = ChartData->points();
+            auto [min_iterator, max_iterator] = std::minmax_element(data.begin(), data.end(), [](const QPointF& v1, const QPointF& v2)
+            {
+                return v1.y() < v2.y();
+            });
+            auto min_value = min_iterator->y();
+            auto max_value = max_iterator->y();
+            double lower_bound = min_value;
+            double upper_bound = max_value;
+            auto difference = max_value - min_value;
+            if (min_value * (min_value - (difference / 10)) > 0)
+            {
+                lower_bound -= difference / 10 + 1.0;
+            }
+            upper_bound += difference / 10 + 1.0;
+            if (upper_bound < 1.0) upper_bound = 1.0;
+            if (lower_bound < 0.0 && lower_bound * min_value < 0) lower_bound = 0.0f;
+            AxisY->setRange(lower_bound, upper_bound);
+            AxisX->setRange(
+                    NextRecordIndex <= max_records_columns ? 0 : static_cast<qreal>(NextRecordIndex - current_records - 1),
+                    static_cast<qreal>(NextRecordIndex - current_records - 1 + max_records_columns));
+            AxisX->setTickCount(static_cast<int>(max_records_columns / 10));
         }
-
-        const auto& data = ChartData->points();
-        auto [min_iterator, max_iterator] = std::minmax_element(data.begin(), data.end(), [](const QPointF& v1, const QPointF& v2)
+        catch(std::invalid_argument& error)
         {
-            return v1.y() < v2.y();
-        });
-        auto min_value = min_iterator->y();
-        auto max_value = max_iterator->y();
-        auto difference = max_value - min_value;
-        if (min_value * (min_value - (difference / 10)) > 0)
-        {
-            min_value -= difference / 10;
         }
-        max_value += difference / 10;
-
-        AxisY->setRange(min_value, max_value);
-        AxisX->setRange(
-                NextRecordIndex <= max_records_columns ? 0 : static_cast<qreal>(NextRecordIndex - current_records - 1),
-                static_cast<qreal>(NextRecordIndex - current_records - 1 + max_records_columns));
-        AxisX->setTickCount(max_records_columns / 10);
     }
 
     /// Change the bound variable name.

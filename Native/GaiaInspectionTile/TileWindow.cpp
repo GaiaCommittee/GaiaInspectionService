@@ -54,6 +54,7 @@ namespace Gaia::InspectionTile
         {
             ui->labelValue->setText("EMPTY");
             ui->labelValue->setStyleSheet("color: rgb(136, 138, 133);");
+            return;
         }
         else
         {
