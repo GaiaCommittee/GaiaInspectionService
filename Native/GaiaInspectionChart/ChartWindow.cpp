@@ -6,7 +6,7 @@
 
 #include "ChartWindow.hpp"
 // Generated from ChartWindow.ui with QtUIC
-#include "UI_ChartWindow.hpp"
+#include "ui_ChartWindow.h"
 
 #include <QMessageBox>
 #include <algorithm>
